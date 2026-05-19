@@ -356,16 +356,33 @@ Expected current constraint: integration.
 
 ## Next 48 Hours
 
-1. Build dogfood ledger.
-2. Add bin/luck-log.
-3. Add bin/luck-recheck.
-4. Run Dogfood 1 on Luck itself.
-5. Implement the first intervention from Dogfood 1.
-6. Recheck Luck.
-7. Run Dogfood 2 on Verdict.
-8. Add two examples from the dogfood runs.
-9. Expand eval pack to 10 cases.
-10. Commit results.
+1. Run bin/luck-eval --quick after every runtime/tooling change.
+2. Use program.md to drive small autoresearch experiments.
+3. Run Dogfood 2 on Verdict.
+4. Add two examples from the dogfood runs.
+5. Expand eval pack to 10 cases.
+6. Add deterministic lint for fast mode.
+7. Recheck Luck after the autoresearch integration.
+8. Commit results to experiments/results.tsv.
+
+## Autoresearch Incorporation
+
+Karpathy's autoresearch pattern is now part of the roadmap.
+
+Transferable pattern:
+- one constrained editable surface
+- one fixed experiment budget
+- one repeatable metric bundle
+- one human-authored program.md
+- keep/discard loop
+- experiment ledger
+
+Luck translation:
+- luck.runtime.md is the main editable surface
+- bin/luck-eval is the repeatable check
+- evals/ and dogfood/ are the measurement surfaces
+- program.md is the agent research program
+- experiments/results.tsv tracks outcomes
 
 ## Non-Negotiables
 
@@ -382,4 +399,3 @@ Expected current constraint: integration.
 The aggressive version of Luck is not "a framework for thinking."
 
 It is a system for increasing the rate at which our work becomes more durable, adoptable, compounding, circulating, and integrated.
-

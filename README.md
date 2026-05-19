@@ -47,6 +47,7 @@ The quickstart is in [`QUICKSTART.md`](QUICKSTART.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
 The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 The aggressive product roadmap is in [`AGGRESSIVE_ROADMAP.md`](AGGRESSIVE_ROADMAP.md).
+Autoresearch integration is in [`AUTORESEARCH_INTEGRATION.md`](AUTORESEARCH_INTEGRATION.md).
 Testing instructions are in [`TESTING.md`](TESTING.md).
 
 ## Repository structure
@@ -62,8 +63,11 @@ bin/luck-check                  ← local Ollama CLI
 bin/luck-selftest               ← one-command smoke test
 bin/luck-log                    ← append JSON assessments to dogfood ledger
 bin/luck-recheck                ← compare latest project assessments
+bin/luck-eval                   ← autoresearch-style repeatable eval
 templates/                      ← context templates
 dogfood/                        ← real assessments and rechecks
+experiments/                    ← autoresearch result ledger
+program.md                      ← agent program for autonomous improvement
 examples/                       ← worked practical assessments
 evals/luck-runtime-effectiveness.yaml
 README.md                       ← you are here
