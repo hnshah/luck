@@ -10,6 +10,9 @@ Already in the fork:
 - luck.md - canonical theory and full conceptual model.
 - luck.runtime.md - compact runtime instructions for agents.
 - USAGE.md - operating ritual and quality bar.
+- QUICKSTART.md - first-run guide.
+- bin/luck-check - local Ollama CLI.
+- templates/ - context templates for common use cases.
 - examples/ - first practical assessments.
 - evals/luck-runtime-effectiveness.yaml - small Verdict eval pack.
 
@@ -112,16 +115,14 @@ Done when assessments can be tracked over time and we can compare whether an int
 
 ## Near-Term Backlog
 
-1. Add QUICKSTART.md.
-2. Add bin/luck-check.
-3. Add context templates.
-4. Expand eval pack from 3 to 20 cases.
-5. Add example for community knowledge circulation.
-6. Add example for AI marketplace timing.
-7. Add JSON scorecard mode.
-8. Add result snapshots from Verdict evals.
-9. Package as an installable OpenClaw/Codex skill.
-10. Run Luck on the next three real projects and document outcomes.
+1. Expand eval pack from 3 to 20 cases.
+2. Add example for community knowledge circulation.
+3. Add example for AI marketplace timing.
+4. Add result snapshots from Verdict evals.
+5. Package as an installable OpenClaw/Codex skill.
+6. Run Luck on the next three real projects and document outcomes.
+7. Add deterministic lint for mode compliance.
+8. Add concepts pages and cross-links back to luck.md.
 
 ## Quality Bar
 

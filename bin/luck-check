@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_RUNTIME = ROOT / "luck.runtime.md"
+DEFAULT_MODEL = "qwen2.5:32b"
+OLLAMA_URL = "http://localhost:11434/api/chat"
+
+MODE_INSTRUCTIONS = {
+    "fast": """Return exactly:
+- Luck constraint: [one line]
+- Failure mode: [one line]
+- Next test: [one line]
+- Do now / do next / defer: [one line]""",
+    "standard": """Return:
+## Luck Assessment: [thing]
+
+### Verdict
+- [Durable / Promising but fragile / Likely temporary / Do not pursue]
+
+### Binding Constraint
+- [One sentence]
+
+### Why
+- [2-4 bullets using only relevant checks]
+
+### Failure Mode To Avoid
+- [Named failure mode] - [plain-language reason]
+
+### Next Test
+- [Concrete experiment, artifact, metric, or decision checkpoint]
+
+### What To Do Now
+1. Do now: [Highest-leverage move]
+2. Do next: [Second move]
+3. Defer/stop: [What to defer or stop]""",
+    "full": """Return the standard assessment plus a 7-check scan with Strong/Mixed/Weak for solvency, demand coupling, adoption friction, compounding loop, circulation, integration, and timing.""",
+    "json": """Return only valid JSON. Do not include markdown.
+
+Use exactly this object shape:
+{
+  "verdict": "durable | promising_but_fragile | likely_temporary | do_not_pursue",
+  "binding_constraint": "solvency | demand_coupling | adoption_friction | compounding_loop | circulation | integration | timing",
+  "binding_constraint_summary": "one sentence",
+  "failure_mode": "flash_in_the_pan | heroic_treadmill | extractive_mirage | institutional_zombie | fragmented_ecology | timing_trap",
+  "next_test": "one concrete test",
+  "do_now": "one concrete move",
+  "do_next": "one concrete move",
+  "defer_or_stop": "what to defer or stop",
+  "scores": {
+    "solvency": "strong | mixed | weak",
+    "demand_coupling": "strong | mixed | weak",
+    "adoption_friction": "strong | mixed | weak",
+    "compounding_loop": "strong | mixed | weak",
+    "circulation": "strong | mixed | weak",
+    "integration": "strong | mixed | weak",
+    "timing": "strong | mixed | weak"
+  }
+}""",
+}
+
+def read_input(path: str | None) -> str:
+    if path:
+        return Path(path).read_text()
+    if not sys.stdin.isatty():
+        return sys.stdin.read()
+    raise SystemExit("Provide --file or pipe text on stdin.")
+
+def load_runtime(path: str | None) -> str:
+    runtime_path = Path(path) if path else DEFAULT_RUNTIME
+    if not runtime_path.exists():
+        raise SystemExit(f"Runtime file not found: {runtime_path}")
+    return runtime_path.read_text()
+
+def call_ollama(model: str, runtime: str, name: str, subject: str, mode: str) -> str:
+    prompt = f"Assess this using Luck Runtime.\n\nName: {name}\n\nOutput mode: {mode}\n\n{MODE_INSTRUCTIONS[mode]}\n\nContext:\n{subject}"
+    body = {
+        "model": model,
+        "stream": False,
+        "messages": [
+            {"role": "system", "content": runtime},
+            {"role": "user", "content": prompt},
+        ],
+        "options": {"temperature": 0, "num_ctx": 8192},
+    }
+    req = urllib.request.Request(
+        OLLAMA_URL,
+        data=json.dumps(body).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=240) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.URLError as exc:
+        raise SystemExit(f"Ollama request failed: {exc}") from exc
+    return data.get("message", {}).get("content", "").strip()
+
+def validate_json_output(text: str) -> str:
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start < 0 or end < start:
+            raise SystemExit("Model did not return JSON.")
+        parsed = json.loads(text[start : end + 1])
+    required = {
+        "verdict",
+        "binding_constraint",
+        "binding_constraint_summary",
+        "failure_mode",
+        "next_test",
+        "do_now",
+        "do_next",
+        "defer_or_stop",
+        "scores",
+    }
+    missing = sorted(required - set(parsed))
+    if missing:
+        raise SystemExit(f"JSON output missing required keys: {', '.join(missing)}")
+    empty = sorted(k for k in required - {"scores"} if not str(parsed.get(k, "")).strip())
+    if empty:
+        raise SystemExit(f"JSON output has empty required values: {', '.join(empty)}")
+    score_keys = {
+        "solvency",
+        "demand_coupling",
+        "adoption_friction",
+        "compounding_loop",
+        "circulation",
+        "integration",
+        "timing",
+    }
+    if not isinstance(parsed.get("scores"), dict):
+        raise SystemExit("JSON output key 'scores' must be an object.")
+    missing_scores = sorted(score_keys - set(parsed["scores"]))
+    if missing_scores:
+        raise SystemExit(f"JSON scores missing keys: {', '.join(missing_scores)}")
+    return json.dumps(parsed, indent=2, sort_keys=True)
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run a Luck Runtime assessment.")
+    parser.add_argument("--name", default="Subject", help="Name of the thing being assessed.")
+    parser.add_argument("--file", help="Path to a text or markdown file to assess.")
+    parser.add_argument("--model", default=DEFAULT_MODEL, help=f"Ollama model, default: {DEFAULT_MODEL}")
+    parser.add_argument("--runtime", help="Optional runtime prompt file.")
+    parser.add_argument("--mode", choices=sorted(MODE_INSTRUCTIONS), default="standard")
+    parser.add_argument("--output", help="Optional path to save output.")
+    args = parser.parse_args()
+
+    subject = read_input(args.file).strip()
+    if not subject:
+        raise SystemExit("No input text provided.")
+
+    result = call_ollama(args.model, load_runtime(args.runtime), args.name, subject, args.mode)
+    if args.mode == "json":
+        result = validate_json_output(result)
+    if args.output:
+        out_path = Path(args.output)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(result + "\n")
+    print(result)
+
+if __name__ == "__main__":
+    main()

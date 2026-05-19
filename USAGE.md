@@ -7,6 +7,10 @@ This repo now has two layers:
 
 Use luck.runtime.md by default in live agent workflows. Use luck.md when you want the full conceptual model or citations.
 
+Fastest local path:
+
+    bin/luck-check --name "Thing to assess" --file templates/repo.md --mode fast
+
 ## When To Use It
 
 Use Luck for:
@@ -72,6 +76,7 @@ A useful Luck output has:
 - one next test that can be run soon
 - little or no jargon
 - no full seven-part scan unless explicitly requested
+- a do-now / do-next / defer line
 
 A weak Luck output:
 
@@ -79,4 +84,3 @@ A weak Luck output:
 - sounds profound but does not change the next move
 - recommends timing or moat work before solvency and adoption work
 - has no test
-

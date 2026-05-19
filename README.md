@@ -26,6 +26,10 @@ In live use, the skill is meant to diagnose the binding constraint rather than f
 
 For day-to-day agent use, start with `luck.runtime.md`. It is the compact operational version: fewer theory tokens, clearer output shape, and stronger guardrails against reciting the framework. Use `luck.md` when you need the full conceptual model.
 
+Fastest path:
+
+    bin/luck-check --name "My repo" --file templates/repo.md --mode fast
+
 ## What's in the box
 
 - **Seven sequential diagnostics** — from individual solvency to ecological integration
@@ -35,9 +39,11 @@ For day-to-day agent use, start with `luck.runtime.md`. It is the compact operat
 - **Reflexive AI instructions** — guidance for applying the framework to any output an AI system constructs
 - **Runtime instructions** — a compact version for consistent live agent use
 - **Examples and evals** — sample assessments and a Verdict-compatible pack for checking output quality
+- **CLI and templates** — a one-command local checker plus context templates
 
 The framework is in [`luck.md`](luck.md).
 The runtime version is in [`luck.runtime.md`](luck.runtime.md).
+The quickstart is in [`QUICKSTART.md`](QUICKSTART.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
 The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 
@@ -46,8 +52,11 @@ The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 ```
 luck.md                         ← canonical skill file
 luck.runtime.md                 ← compact runtime skill
+QUICKSTART.md                   ← fastest path to first useful output
 USAGE.md                        ← operating ritual and quality bar
 ROADMAP.md                      ← usability and consistency roadmap
+bin/luck-check                  ← local Ollama CLI
+templates/                      ← context templates
 examples/                       ← worked practical assessments
 evals/luck-runtime-effectiveness.yaml
 README.md                       ← you are here
