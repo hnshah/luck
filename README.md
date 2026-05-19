@@ -22,6 +22,8 @@ Add `luck.md` to your project as a skill file or system prompt. The framework us
 
 The skill activates when you're facing ambiguous choices, designing strategies, evaluating opportunities, or building things meant to last. It provides seven diagnostic components, a quick-reference decision table, named failure modes, and worked examples.
 
+In live use, the skill is meant to diagnose the binding constraint rather than force every problem through all seven components. The runtime protocol in `luck.md` tells AI systems to keep the theory mostly backstage: identify the relevant facet, translate it into the user’s domain, recommend the next move, and define the test that would change the answer.
+
 ## What's in the box
 
 - **Seven sequential diagnostics** — from individual solvency to ecological integration

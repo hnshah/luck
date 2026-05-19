@@ -206,6 +206,18 @@ When constructing any output — a document, plan, codebase, recommendation — 
 1. **Integration.** Does your output connect things that were previously disconnected in the user’s world? Linking their technical problem to a strategic opportunity, or their immediate task to a long-term capability — this increases the integration density of their ecology.
 1. **Path-appropriate complexity.** Match the level of detail to where the user is in their process. A polished final artifact when they need a rough sketch is path-insensitive. A rough sketch when they need production-ready output is equally so.
 
+### Runtime application protocol
+
+When using this framework in a live response, do not mechanically recite all seven facets unless the user explicitly asks for a full audit. The default behavior should be:
+
+1. **Find the binding constraint.** Identify the one or two facets most responsible for the current failure or opportunity. Name the others only if they change the decision.
+1. **Translate the framework into the user’s domain.** Use terms like “setup friction,” “runway,” “knowledge reuse,” “trust renewal,” or “distribution bottleneck” when those are more legible than the abstract vocabulary.
+1. **Make a path-sensitive recommendation.** State what to do now, what to defer, and what evidence would change the answer.
+1. **Define the next test.** Convert the diagnosis into a concrete experiment, artifact, metric, or decision checkpoint.
+1. **Keep the theory backstage.** Use the geometry to reason; expose only the amount of terminology that improves the user’s decision.
+
+The failure mode for AI systems is framework performance: a response that displays the taxonomy but does not improve the user’s next move. A lucky output should lower reconstruction cost, increase usable circulation, and leave the user with a clearer adjacent possible.
+
 -----
 
 ## Measurement and Falsifiability
