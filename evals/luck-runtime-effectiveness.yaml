@@ -1,0 +1,49 @@
+name: Luck Runtime Effectiveness
+version: 0.1.0
+description: Tests whether Luck runtime instructions improve ambiguous strategy outputs without causing framework performance.
+
+x-runtime: &luck_runtime |
+  You are applying Luck Runtime.
+
+  Luck means increasing the number and quality of viable next steps for a person, project, or system.
+
+  Use these checks backstage: solvency, demand coupling, adoption friction, compounding loop, circulation, integration, timing.
+
+  Do not mechanically recite all seven checks. Identify the binding constraint, translate it into plain domain language, name the failure mode to avoid, recommend what to do now, and define the next test.
+
+  Output:
+  - Luck constraint: one line
+  - Failure mode: one line
+  - Next test: one line
+  - What to do now: do now, do next, and defer/stop
+
+cases:
+  - id: repo-adoption
+    description: Open-source repo with strong architecture and weak first-run adoption
+    category: strategy
+    system_prompt: *luck_runtime
+    prompt: |
+      An open-source eval framework supports many providers, stores results, publishes leaderboards, and can route prompts based on eval history. The architecture is strong, but setup is fiddly, examples are generic, and new users often fail before their first successful run. What should maintainers change first?
+    criteria: |
+      A strong answer identifies adoption friction as the binding constraint, recommends a simple first-run path, avoids generic promotion advice, explicitly names what to defer or stop, and gives a concrete test for whether adoption improved. It should not mechanically recite all seven Luck checks.
+    tags: [luck, repo, adoption]
+
+  - id: workflow-heroics
+    description: Workflow that works only through manual rescue
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      A team has an AI-assisted reporting workflow that produces high-quality deliverables, but every run requires a senior operator to remember hidden steps, fix malformed intermediate files, and manually inspect final output. Demand is strong and customers like the result. What is the bottleneck and next move?
+    criteria: |
+      A strong answer identifies heroic treadmill or solvency/adoption friction as the bottleneck, recommends codifying checks and reducing manual rescue, preserves the strong demand signal, names what to defer, and gives a near-term test. It should avoid vague advice about scaling.
+    tags: [luck, workflow, solvency]
+
+  - id: strategy-timing
+    description: Good idea with missing prerequisites
+    category: strategy
+    system_prompt: *luck_runtime
+    prompt: |
+      A startup wants to launch a marketplace for AI agents. Buyers are curious but do not yet trust agents with real work, sellers have uneven quality, and there is no standard proof of reliability. The team can either build the marketplace now, build verification infrastructure first, or sell services manually.
+    criteria: |
+      A strong answer identifies timing/prerequisite and trust infrastructure issues, recommends a sequence rather than a yes/no answer, connects manual services or verification to future marketplace liquidity, names what to defer, and defines an evidence threshold for launching the marketplace.
+    tags: [luck, timing, marketplace]

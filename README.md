@@ -24,6 +24,8 @@ The skill activates when you're facing ambiguous choices, designing strategies, 
 
 In live use, the skill is meant to diagnose the binding constraint rather than force every problem through all seven components. The runtime protocol in `luck.md` tells AI systems to keep the theory mostly backstage: identify the relevant facet, translate it into the user’s domain, recommend the next move, and define the test that would change the answer.
 
+For day-to-day agent use, start with `luck.runtime.md`. It is the compact operational version: fewer theory tokens, clearer output shape, and stronger guardrails against reciting the framework. Use `luck.md` when you need the full conceptual model.
+
 ## What's in the box
 
 - **Seven sequential diagnostics** — from individual solvency to ecological integration
@@ -31,15 +33,22 @@ In live use, the skill is meant to diagnose the binding constraint rather than f
 - **Worked examples** — from political memes to the U.S. Constitution to the collapse of empires
 - **Testable predictions** — six falsifiable claims that distinguish this from generic strategy advice
 - **Reflexive AI instructions** — guidance for applying the framework to any output an AI system constructs
+- **Runtime instructions** — a compact version for consistent live agent use
+- **Examples and evals** — sample assessments and a Verdict-compatible pack for checking output quality
 
 The framework is in [`luck.md`](luck.md).
+The runtime version is in [`luck.runtime.md`](luck.runtime.md).
+Usage guidance is in [`USAGE.md`](USAGE.md).
 
 ## Repository structure
 
 ```
-luck.md              ← canonical skill file
-luck_*.md            ← working drafts (dated)
-README.md            ← you are here
+luck.md                         ← canonical skill file
+luck.runtime.md                 ← compact runtime skill
+USAGE.md                        ← operating ritual and quality bar
+examples/                       ← worked practical assessments
+evals/luck-runtime-effectiveness.yaml
+README.md                       ← you are here
 ```
 
 ## Theoretical roots
