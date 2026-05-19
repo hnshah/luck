@@ -39,6 +39,7 @@ For day-to-day agent use, start with `luck.runtime.md`. It is the compact operat
 The framework is in [`luck.md`](luck.md).
 The runtime version is in [`luck.runtime.md`](luck.runtime.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
+The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 
 ## Repository structure
 
@@ -46,6 +47,7 @@ Usage guidance is in [`USAGE.md`](USAGE.md).
 luck.md                         ← canonical skill file
 luck.runtime.md                 ← compact runtime skill
 USAGE.md                        ← operating ritual and quality bar
+ROADMAP.md                      ← usability and consistency roadmap
 examples/                       ← worked practical assessments
 evals/luck-runtime-effectiveness.yaml
 README.md                       ← you are here
