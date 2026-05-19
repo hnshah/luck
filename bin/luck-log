@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+LEDGER = ROOT / "dogfood" / "ledger.jsonl"
+
+
+def run_check(args: argparse.Namespace) -> str:
+    cmd = [
+        str(ROOT / "bin" / "luck-check"),
+        "--name",
+        args.name,
+        "--file",
+        args.file,
+        "--mode",
+        "json",
+        "--model",
+        args.model,
+    ]
+    return subprocess.check_output(cmd, text=True)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run a JSON Luck check and append it to the dogfood ledger.")
+    parser.add_argument("--project", required=True, help="Project key, e.g. luck, verdict, crazyegg.")
+    parser.add_argument("--name", required=True, help="Assessment name.")
+    parser.add_argument("--file", required=True, help="Context file.")
+    parser.add_argument("--model", default="qwen2.5:32b")
+    parser.add_argument("--phase", default="before", choices=["before", "after", "recheck"])
+    parser.add_argument("--intervention", default="", help="Intervention being tested, if any.")
+    args = parser.parse_args()
+
+    result = json.loads(run_check(args))
+    entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "project": args.project,
+        "name": args.name,
+        "phase": args.phase,
+        "intervention": args.intervention,
+        "model": args.model,
+        "assessment": result,
+    }
+    LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    with LEDGER.open("a") as f:
+        f.write(json.dumps(entry, sort_keys=True) + "\n")
+    print(json.dumps(entry, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
+

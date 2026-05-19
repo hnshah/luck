@@ -54,3 +54,8 @@ After the next test, rerun Luck and ask:
 ## Test The Install
 
     bin/luck-selftest
+
+## Dogfood A Real Project
+
+    bin/luck-log --project luck --name "Luck itself" --file dogfood/luck-context.md
+    bin/luck-recheck --project luck
