@@ -12,6 +12,7 @@ Already in the fork:
 - USAGE.md - operating ritual and quality bar.
 - QUICKSTART.md - first-run guide.
 - bin/luck-check - local Ollama CLI.
+- bin/luck-selftest - one-command smoke test.
 - templates/ - context templates for common use cases.
 - examples/ - first practical assessments.
 - evals/luck-runtime-effectiveness.yaml - small Verdict eval pack.
@@ -121,7 +122,7 @@ Done when assessments can be tracked over time and we can compare whether an int
 4. Add result snapshots from Verdict evals.
 5. Package as an installable OpenClaw/Codex skill.
 6. Run Luck on the next three real projects and document outcomes.
-7. Add deterministic lint for mode compliance.
+7. Add deterministic lint for mode compliance beyond the self-test.
 8. Add concepts pages and cross-links back to luck.md.
 
 ## Quality Bar

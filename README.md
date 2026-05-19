@@ -46,6 +46,7 @@ The runtime version is in [`luck.runtime.md`](luck.runtime.md).
 The quickstart is in [`QUICKSTART.md`](QUICKSTART.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
 The roadmap is in [`ROADMAP.md`](ROADMAP.md).
+Testing instructions are in [`TESTING.md`](TESTING.md).
 
 ## Repository structure
 
@@ -56,6 +57,7 @@ QUICKSTART.md                   ← fastest path to first useful output
 USAGE.md                        ← operating ritual and quality bar
 ROADMAP.md                      ← usability and consistency roadmap
 bin/luck-check                  ← local Ollama CLI
+bin/luck-selftest               ← one-command smoke test
 templates/                      ← context templates
 examples/                       ← worked practical assessments
 evals/luck-runtime-effectiveness.yaml

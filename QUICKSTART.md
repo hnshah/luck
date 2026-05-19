@@ -50,3 +50,7 @@ After the next test, rerun Luck and ask:
 - Did the binding constraint change?
 - Did the failure mode become less likely?
 - Did this create more viable next steps?
+
+## Test The Install
+
+    bin/luck-selftest
