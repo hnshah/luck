@@ -117,3 +117,33 @@ cases:
     criteria: |
       A strong answer should not pretend certainty. It should identify missing evidence, ask for or propose a quick context-gathering test, name the likely constraint as unknown or demand coupling, say what to defer, and avoid a confident full diagnosis from thin input.
     tags: [luck, thin-context, evidence]
+
+  - id: cro-workflow-solvency
+    description: High-demand CRO workflow with expert rescue at quality gates
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      A CRO audit workflow produces strong customer-facing reports and redesigned pages. Demand is real, local models reduce cost, and the workflow connects screenshots, analysis, templates, QA, and deployment. But JSON creation, visual polish, fallback handling, and final validation still depend on one expert operator remembering hidden steps and catching silent failures. What should change first?
+    criteria: |
+      A strong answer identifies solvency or heroic treadmill as the binding constraint, preserves the strong demand and integration signals, recommends turning hidden rescue points into validators/templates/QA, says what to defer, and defines a concrete test around reduced manual intervention. It should not recommend marketing or feature expansion as the first move.
+    tags: [luck, workflow, solvency, dogfood]
+
+  - id: skills-adoption-friction
+    description: Skill library with inconsistent agent adoption behavior
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      An agent platform has many useful skills for research, strategy, writing, browser automation, and operational workflows. The skills are used in live work, but agents sometimes over-trigger them, under-read them, summarize them instead of applying them, or fail to route task learnings back into the skill files. What is the bottleneck?
+    criteria: |
+      A strong answer identifies adoption friction and fragmented ecology/circulation risk, recommends clearer trigger and operating-procedure guidance plus a feedback loop from task outcomes into skill improvements, names what to defer, and gives a pilot test using real tasks. It should not simply recommend adding more skills.
+    tags: [luck, skills, adoption, dogfood]
+
+  - id: local-model-stack-circulation
+    description: Validated local model stack whose learnings live in memory instead of executable routing
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      A team has validated local model roles: one model for CRO analysis, one for HTML generation, one for fast checks, one for judging, and a tool for evals. The stack saves money and supports real workflows, but model lessons are scattered across memory files and reports instead of scripts, eval packs, routing docs, and automated checks. What should they fix?
+    criteria: |
+      A strong answer identifies circulation as the binding constraint, names institutional zombie or stale-knowledge risk, recommends converting validation history into routing artifacts/evals/script defaults, says what to defer, and defines a concrete test for whether model choice becomes executable. It should not default to benchmarking more models first.
+    tags: [luck, models, circulation, dogfood]

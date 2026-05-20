@@ -47,6 +47,7 @@ The quickstart is in [`QUICKSTART.md`](QUICKSTART.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
 The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 The aggressive product roadmap is in [`AGGRESSIVE_ROADMAP.md`](AGGRESSIVE_ROADMAP.md).
+Dogfood synthesis is in [`DOGFOOD_SYNTHESIS.md`](DOGFOOD_SYNTHESIS.md).
 Intervention playbooks are in [`PLAYBOOKS.md`](PLAYBOOKS.md).
 Autoresearch integration is in [`AUTORESEARCH_INTEGRATION.md`](AUTORESEARCH_INTEGRATION.md).
 Testing instructions are in [`TESTING.md`](TESTING.md).

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-MODEL="${LUCK_TEST_MODEL:-qwen2.5:7b}"
+MODEL="${LUCK_TEST_MODEL:-qwen2.5:32b}"
 TMPDIR="${TMPDIR:-/tmp}/luck-selftest"
 
 mkdir -p "$TMPDIR"

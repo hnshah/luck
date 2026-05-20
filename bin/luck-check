@@ -68,7 +68,10 @@ Use exactly this object shape:
 
 def read_input(path: str | None) -> str:
     if path:
-        return Path(path).read_text()
+        input_path = Path(path)
+        if not input_path.exists():
+            raise SystemExit(f"Input file not found: {input_path}")
+        return input_path.read_text()
     if not sys.stdin.isatty():
         return sys.stdin.read()
     raise SystemExit("Provide --file or pipe text on stdin.")
@@ -101,7 +104,11 @@ def call_ollama(model: str, runtime: str, name: str, subject: str, mode: str) ->
             data = json.loads(resp.read().decode("utf-8"))
     except urllib.error.URLError as exc:
         raise SystemExit(f"Ollama request failed: {exc}") from exc
-    return data.get("message", {}).get("content", "").strip()
+    result = data.get("message", {}).get("content", "").strip()
+    if not result:
+        reason = data.get("done_reason") or data.get("error") or "empty model response"
+        raise SystemExit(f"Ollama returned no content: {reason}")
+    return result
 
 def validate_json_output(text: str) -> str:
     try:
