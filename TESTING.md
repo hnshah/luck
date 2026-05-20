@@ -13,9 +13,15 @@ Use another model:
 The self-test checks:
 
 - bin/luck-check --help
-- fast mode includes constraint, failure mode, and next test
-- JSON mode returns the required scorecard shape
+- fast mode passes deterministic lint for constraint, failure mode, next test, defer/stop, brevity, and no taxonomy recitation
+- JSON mode passes deterministic lint for required fields, enum compliance, scorecard shape, and concrete next test
 - all context templates exist
+- bin/luck-context lists modes and generates a workflow context
+
+Lint a saved output directly:
+
+    bin/luck-lint --mode fast --file /tmp/luck-fast.md
+    bin/luck-lint --mode json --file /tmp/luck.json
 
 Run the Verdict eval pack:
 

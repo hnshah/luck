@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+MODES = {
+    "repo": {
+        "title": "Repo Context",
+        "sections": [
+            ("Goal", "What should this repo make easier, safer, faster, or more durable?"),
+            ("Current State", "What works today? What exists already?"),
+            ("Active Demand", "Who wants this? What repeated pull or usage exists?"),
+            ("First-Run Path", "What must a new user do before their first successful result?"),
+            ("Adoption Friction", "Where do users fail, stall, or need help?"),
+            ("Maintenance Burden", "What requires repeated maintainer or operator effort?"),
+            ("Compounding Loop", "What does each use create that makes the next use easier?"),
+            ("Integration", "What tools, workflows, APIs, or standards does it connect to?"),
+            ("Known Failure", "What failure mode are you already worried about?"),
+        ],
+    },
+    "workflow": {
+        "title": "Workflow Context",
+        "sections": [
+            ("Goal", "What outcome should this workflow reliably produce?"),
+            ("Current State", "What steps happen today?"),
+            ("Active Demand", "Who needs the output, and how often?"),
+            ("Manual Rescue Points", "Where does a human remember, retry, inspect, or patch things?"),
+            ("Adoption Friction", "What makes the workflow hard for someone else to run?"),
+            ("Maintenance Burden", "What drifts, breaks, or needs repeated upkeep?"),
+            ("Compounding Loop", "What learning, QA check, template, or reusable asset should each run create?"),
+            ("Circulation", "Where do learnings go after a run?"),
+            ("Known Failure", "What recurring failure should Luck detect early?"),
+        ],
+    },
+    "product": {
+        "title": "Product Context",
+        "sections": [
+            ("Goal", "What user outcome should this product make easier?"),
+            ("User / Buyer", "Who has the pain, budget, urgency, or repeated need?"),
+            ("Current Pull", "What evidence shows people actively want this?"),
+            ("Adoption Path", "What must happen before a user gets value?"),
+            ("Adoption Friction", "What behavior change, setup, trust, or integration blocks use?"),
+            ("Maintenance Burden", "What must the team keep doing for this to work?"),
+            ("Compounding Loop", "What improves as more people use it?"),
+            ("Ecosystem Fit", "What existing workflow or platform does this attach to?"),
+            ("Timing", "What prerequisite must be true before this can scale?"),
+        ],
+    },
+    "strategy": {
+        "title": "Strategy Context",
+        "sections": [
+            ("Decision", "What choice is being made?"),
+            ("Objective", "What should become more possible if this works?"),
+            ("Options", "What are the plausible paths?"),
+            ("Constraints", "What limits time, money, attention, trust, or capacity?"),
+            ("Demand / Pull", "What external pull or urgency exists?"),
+            ("Adoption / Execution Friction", "What makes the strategy hard to carry out?"),
+            ("Compounding Upside", "What would success make easier next?"),
+            ("Risks", "What failure mode are you worried about?"),
+            ("Evidence Needed", "What evidence would change the decision?"),
+        ],
+    },
+    "personal": {
+        "title": "Personal Luck Context",
+        "sections": [
+            ("Goal", "What kind of next steps do you want more of?"),
+            ("Current Activities", "What are you doing now?"),
+            ("Pull From Others", "Who is already asking for your time, work, or perspective?"),
+            ("Friction", "What makes it hard to keep going or turn activity into outcomes?"),
+            ("Maintenance Burden", "What drains energy without creating future leverage?"),
+            ("Compounding Loop", "What artifact, relationship, skill, or audience could grow with repetition?"),
+            ("Circulation", "Where does learning go so it can help future you or others?"),
+            ("Timing", "What window, deadline, or prerequisite matters now?"),
+            ("Known Failure", "What pattern do you want to avoid?"),
+        ],
+    },
+}
+
+
+def render(mode: str, name: str) -> str:
+    spec = MODES[mode]
+    lines = [f"# {name or spec['title']}", ""]
+    for heading, prompt in spec["sections"]:
+        lines.extend([f"## {heading}", "", f"Prompt: {prompt}", "", "Notes:", "- ", ""])
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate a Luck context template.")
+    parser.add_argument("--mode", choices=sorted(MODES), default="workflow")
+    parser.add_argument("--name", default="", help="Title for the context file.")
+    parser.add_argument("--output", help="Optional file path. Prints to stdout if omitted.")
+    parser.add_argument("--list", action="store_true", help="List available modes.")
+    args = parser.parse_args()
+
+    if args.list:
+        for mode in sorted(MODES):
+            print(mode)
+        return
+
+    text = render(args.mode, args.name)
+    if args.output:
+        path = Path(args.output)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if path.exists():
+            raise SystemExit(f"Refusing to overwrite existing file: {path}")
+        path.write_text(text)
+        print(path)
+    else:
+        sys.stdout.write(text)
+
+
+if __name__ == "__main__":
+    main()

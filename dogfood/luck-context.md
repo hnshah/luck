@@ -6,7 +6,7 @@ Make Luck consistently useful as an operating framework for agents and humans.
 
 ## Current State
 
-The fork now has a canonical theory file, runtime file, quickstart, CLI, selftest, context templates, examples, and a small Verdict eval pack.
+The fork now has a canonical theory file, runtime file, quickstart, CLI, context generator, deterministic output lint, selftest, context templates, examples, intervention playbooks, and a 10-case Verdict eval pack.
 
 ## Active Demand
 
@@ -14,15 +14,15 @@ Hiten wants to use Luck on real work: repos, workflows, strategy choices, CRO sy
 
 ## Adoption Path
 
-Users can run bin/luck-check with a context file or template. The tool supports fast, standard, full, and JSON modes.
+Users can run bin/luck-context to generate a context file, then run bin/luck-check with fast, standard, full, or JSON modes.
 
 ## Adoption Friction
 
-The system is still new. People may not know when to use it, how much context to provide, or how to turn the assessment into an intervention.
+The system is still new. bin/luck-context reduces blank-page friction, but users still need enough examples and playbooks to turn assessments into interventions.
 
 ## Maintenance Burden
 
-The eval pack is small. Examples are sparse. Dogfood results are not yet accumulated.
+Examples are sparse. Dogfood results are just starting to accumulate. The next burden is keeping playbooks specific as real interventions are tested.
 
 ## Compounding Loop
 
@@ -35,4 +35,3 @@ Dogfood results need to flow back into examples, evals, templates, and runtime i
 ## Known Failure
 
 Luck could become another markdown framework unless dogfood runs prove it changes decisions.
-

@@ -63,6 +63,16 @@ Default behavior:
 5. Recommend what to do now, what to defer, and what evidence would change the answer.
 6. End with the next test.
 
+When a playbook is available, make the recommendation match the binding constraint:
+
+- Solvency: remove a recurring rescue point.
+- Demand coupling: test repeated pull with a real commitment.
+- Adoption friction: shorten the first-run path to real value.
+- Compounding loop: make the next run create a reusable asset.
+- Circulation: capture and route value back through the system.
+- Integration: land the output inside the existing workflow.
+- Timing: build or verify the missing prerequisite first.
+
 Avoid:
 
 - Walking through all seven checks when a shorter diagnosis is enough.

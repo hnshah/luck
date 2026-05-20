@@ -47,6 +47,7 @@ The quickstart is in [`QUICKSTART.md`](QUICKSTART.md).
 Usage guidance is in [`USAGE.md`](USAGE.md).
 The roadmap is in [`ROADMAP.md`](ROADMAP.md).
 The aggressive product roadmap is in [`AGGRESSIVE_ROADMAP.md`](AGGRESSIVE_ROADMAP.md).
+Intervention playbooks are in [`PLAYBOOKS.md`](PLAYBOOKS.md).
 Autoresearch integration is in [`AUTORESEARCH_INTEGRATION.md`](AUTORESEARCH_INTEGRATION.md).
 Testing instructions are in [`TESTING.md`](TESTING.md).
 
@@ -59,8 +60,11 @@ QUICKSTART.md                   ← fastest path to first useful output
 USAGE.md                        ← operating ritual and quality bar
 ROADMAP.md                      ← usability and consistency roadmap
 AGGRESSIVE_ROADMAP.md           ← product roadmap and dogfood plan
+PLAYBOOKS.md                    ← intervention playbooks for each binding constraint
 bin/luck-check                  ← local Ollama CLI
+bin/luck-context                ← guided context generator
 bin/luck-selftest               ← one-command smoke test
+bin/luck-lint                   ← deterministic output quality checks
 bin/luck-log                    ← append JSON assessments to dogfood ledger
 bin/luck-recheck                ← compare latest project assessments
 bin/luck-eval                   ← autoresearch-style repeatable eval

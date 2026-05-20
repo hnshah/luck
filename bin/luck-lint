@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+SEVEN_CHECKS = {
+    "solvency",
+    "demand coupling",
+    "adoption friction",
+    "compounding loop",
+    "circulation",
+    "integration",
+    "timing",
+}
+
+REQUIRED_JSON_KEYS = {
+    "verdict",
+    "binding_constraint",
+    "binding_constraint_summary",
+    "failure_mode",
+    "next_test",
+    "do_now",
+    "do_next",
+    "defer_or_stop",
+    "scores",
+}
+
+SCORE_KEYS = {
+    "solvency",
+    "demand_coupling",
+    "adoption_friction",
+    "compounding_loop",
+    "circulation",
+    "integration",
+    "timing",
+}
+
+VERDICTS = {"durable", "promising_but_fragile", "likely_temporary", "do_not_pursue"}
+CONSTRAINTS = SCORE_KEYS
+FAILURE_MODES = {
+    "flash_in_the_pan",
+    "heroic_treadmill",
+    "extractive_mirage",
+    "institutional_zombie",
+    "fragmented_ecology",
+    "timing_trap",
+}
+SCORES = {"strong", "mixed", "weak"}
+CONCRETE_VERBS = {
+    "run",
+    "ship",
+    "test",
+    "measure",
+    "instrument",
+    "compare",
+    "log",
+    "pilot",
+    "publish",
+    "remove",
+    "add",
+    "automate",
+    "build",
+    "define",
+    "ask",
+    "validate",
+    "watch",
+    "track",
+}
+
+
+def words(text: str) -> list[str]:
+    return re.findall(r"[A-Za-z0-9_'-]+", text)
+
+
+def fail(message: str) -> None:
+    raise SystemExit(f"luck lint failed: {message}")
+
+
+def read_text(path: str | None) -> str:
+    if path:
+        return Path(path).read_text()
+    return sys.stdin.read()
+
+
+def lint_fast(text: str, max_words: int) -> None:
+    lower = text.lower()
+    required = ["luck constraint", "failure mode", "next test"]
+    for label in required:
+        if label not in lower:
+            fail(f"fast output missing label: {label}")
+    if "defer" not in lower and "stop" not in lower:
+        fail("fast output must say what to defer or stop")
+    count = len(words(text))
+    if count > max_words:
+        fail(f"fast output too long: {count} words > {max_words}")
+    mentioned_checks = [term for term in SEVEN_CHECKS if term in lower]
+    if len(mentioned_checks) >= 5:
+        fail("fast output is reciting the framework instead of deciding")
+    next_test_match = re.search(r"next test:\s*(.+)", text, re.IGNORECASE)
+    if not next_test_match:
+        fail("missing next test line")
+    next_test = next_test_match.group(1).lower()
+    if not any(re.search(rf"\b{re.escape(verb)}\b", next_test) for verb in CONCRETE_VERBS):
+        fail("next test needs a concrete action verb")
+
+
+def lint_json(text: str) -> None:
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError as exc:
+        fail(f"invalid JSON: {exc}")
+
+    missing = sorted(REQUIRED_JSON_KEYS - set(data))
+    if missing:
+        fail(f"JSON missing keys: {', '.join(missing)}")
+
+    for key in REQUIRED_JSON_KEYS - {"scores"}:
+        if not str(data.get(key, "")).strip():
+            fail(f"JSON key is empty: {key}")
+
+    if data["verdict"] not in VERDICTS:
+        fail(f"invalid verdict enum: {data['verdict']}")
+    if data["binding_constraint"] not in CONSTRAINTS:
+        fail(f"invalid binding_constraint enum: {data['binding_constraint']}")
+    if data["failure_mode"] not in FAILURE_MODES:
+        fail(f"invalid failure_mode enum: {data['failure_mode']}")
+    if not isinstance(data["scores"], dict):
+        fail("scores must be an object")
+    missing_scores = sorted(SCORE_KEYS - set(data["scores"]))
+    if missing_scores:
+        fail(f"JSON scores missing keys: {', '.join(missing_scores)}")
+    for key, value in data["scores"].items():
+        if key in SCORE_KEYS and value not in SCORES:
+            fail(f"invalid score enum for {key}: {value}")
+    if not any(re.search(rf"\b{re.escape(verb)}\b", data["next_test"].lower()) for verb in CONCRETE_VERBS):
+        fail("JSON next_test needs a concrete action verb")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Deterministic lint for Luck outputs.")
+    parser.add_argument("--mode", choices=["fast", "json"], required=True)
+    parser.add_argument("--file", help="Output file to lint. Reads stdin if omitted.")
+    parser.add_argument("--max-fast-words", type=int, default=180)
+    args = parser.parse_args()
+
+    text = read_text(args.file).strip()
+    if not text:
+        fail("empty output")
+    if args.mode == "fast":
+        lint_fast(text, args.max_fast_words)
+    else:
+        lint_json(text)
+    print("luck lint ok")
+
+
+if __name__ == "__main__":
+    main()

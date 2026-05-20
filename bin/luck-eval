@@ -23,13 +23,11 @@ Compounding loop: each run should create reusable QA checks and template improve
 Known failure: heroic treadmill.
 EOF
 bin/luck-check --name "Eval workflow" --file /tmp/luck-eval-context.md --mode fast --model "$MODEL" > /tmp/luck-eval-fast.md
-grep -qi "Luck constraint" /tmp/luck-eval-fast.md
-grep -qi "Failure mode" /tmp/luck-eval-fast.md
-grep -qi "Next test" /tmp/luck-eval-fast.md
-grep -Eqi "defer|stop" /tmp/luck-eval-fast.md
+bin/luck-lint --mode fast --file /tmp/luck-eval-fast.md
 
 echo "3/5 json sample"
 bin/luck-check --name "Eval workflow" --file /tmp/luck-eval-context.md --mode json --model "$MODEL" --output /tmp/luck-eval.json >/dev/null
+bin/luck-lint --mode json --file /tmp/luck-eval.json
 
 echo "4/5 verdict dry-run"
 if [[ -d /Users/bobshah/.openclaw/ren-workspace/verdict ]]; then

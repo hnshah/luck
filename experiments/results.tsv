@@ -1,2 +1,3 @@
 commit	metric	status	changed_files	description
 d652fa9	quick_eval_ok	keep	AUTORESEARCH_INTEGRATION.md,program.md,bin/luck-eval	successfully incorporated Karpathy autoresearch loop and bin/luck-eval --quick passed
+this-commit	quick_eval_ok	keep	bin/luck-lint,bin/luck-context,evals/luck-runtime-effectiveness.yaml,PLAYBOOKS.md	added deterministic lint, guided context generation, expanded eval cases, intervention playbooks, and dogfood assessments for Luck/Verdict

@@ -47,3 +47,73 @@ cases:
     criteria: |
       A strong answer identifies timing/prerequisite and trust infrastructure issues, recommends a sequence rather than a yes/no answer, connects manual services or verification to future marketplace liquidity, names what to defer, and defines an evidence threshold for launching the marketplace.
     tags: [luck, timing, marketplace]
+
+  - id: community-circulation
+    description: Community with good ideas but weak reuse loops
+    category: community
+    system_prompt: *luck_runtime
+    prompt: |
+      A founder community has high-quality weekly discussions and smart members, but the best lessons disappear into chat history. New members repeat old questions, operators do not reuse prior answers, and the group depends on one moderator to connect people manually. What should change first?
+    criteria: |
+      A strong answer identifies circulation as the binding constraint, recommends turning repeated knowledge into reusable artifacts or routing loops, names moderator heroics as a risk, says what to defer, and defines a concrete test for whether knowledge starts moving through the system.
+    tags: [luck, community, circulation]
+
+  - id: feature-demand-coupling
+    description: Interesting feature without repeated pull
+    category: product
+    system_prompt: *luck_runtime
+    prompt: |
+      A product team wants to build an AI dashboard because demos look impressive. Existing customers ask more often for faster exports, clearer alerts, and fewer setup steps. The dashboard would take a month and mostly help sales calls. What should they do?
+    criteria: |
+      A strong answer identifies weak demand coupling for the dashboard, recommends serving the repeated customer pull first, names the likely distraction or flash-in-the-pan risk, includes what to defer, and gives a demand test before committing to the dashboard.
+    tags: [luck, product, demand]
+
+  - id: maintainer-solvency
+    description: Popular project with unsustainable maintainer load
+    category: repo
+    system_prompt: *luck_runtime
+    prompt: |
+      An open-source library has many stars, real users, and frequent issues. The maintainer answers every question, reviews every PR, writes all releases, and is falling behind. Users love the project but there is no triage process, no contributor guide, and no release automation. What is the next move?
+    criteria: |
+      A strong answer identifies solvency or maintainer capacity as the binding constraint, preserves the demand signal, recommends reducing maintainer rescue work first, names what to defer, and defines a test around support load or contributor throughput.
+    tags: [luck, repo, solvency]
+
+  - id: integration-gap
+    description: Useful tool outside the existing workflow
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      A team built a useful internal analysis tool. It gives better recommendations than the old spreadsheet, but it lives in a separate app, requires manual CSV uploads, and does not write results back to the CRM where the team works. Usage spikes after demos and then fades. What is the bottleneck?
+    criteria: |
+      A strong answer identifies integration or adoption friction, recommends connecting to the existing workflow before adding more analysis features, names what to defer, and gives a concrete usage-retention or handoff test.
+    tags: [luck, integration, workflow]
+
+  - id: compounding-loop-gap
+    description: High-quality work that does not make future work easier
+    category: workflow
+    system_prompt: *luck_runtime
+    prompt: |
+      A consulting team produces excellent client audits. Each audit has new insights, but the insights rarely become templates, QA checks, reusable examples, or sales proof. The next audit starts almost from scratch even when the same problems recur. What should they fix?
+    criteria: |
+      A strong answer identifies a weak compounding loop or circulation, recommends making each audit create reusable assets, names the heroic treadmill risk, says what to defer, and defines a concrete test for whether future audits get faster or better.
+    tags: [luck, compounding, workflow]
+
+  - id: personal-optionality
+    description: Personal decision with many activities and no compounding path
+    category: personal
+    system_prompt: *luck_runtime
+    prompt: |
+      Someone is taking many coffee chats, writing occasional posts, advising friends, and exploring startup ideas. The activity creates energy but no public artifact, repeated audience, or clear learning loop. They ask how to get luckier over the next month. What should they do?
+    criteria: |
+      A strong answer identifies weak compounding or circulation, recommends one repeatable public artifact or feedback loop, avoids vague networking advice, names what to stop or defer, and gives a concrete one-month test.
+    tags: [luck, personal, compounding]
+
+  - id: thin-context
+    description: Ambiguous request with too little evidence
+    category: strategy
+    system_prompt: *luck_runtime
+    prompt: |
+      I have an idea for a new AI product. It could be big. Should I pursue it?
+    criteria: |
+      A strong answer should not pretend certainty. It should identify missing evidence, ask for or propose a quick context-gathering test, name the likely constraint as unknown or demand coupling, say what to defer, and avoid a confident full diagnosis from thin input.
+    tags: [luck, thin-context, evidence]

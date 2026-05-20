@@ -6,6 +6,14 @@ Use Luck when the question is not "can this be done?" but "will this survive, sp
 
 Use a template from templates/ or paste rough notes with goal, current constraint, active demand, adoption path, maintenance burden, what repeats, what success makes easier next, and known friction.
 
+If you are starting from a blank page, generate a context file:
+
+    bin/luck-context --mode workflow --name "My workflow" --output /tmp/my-workflow.md
+
+Available modes:
+
+    bin/luck-context --list
+
 ## 2. Run A Check
 
 Fast mode:
